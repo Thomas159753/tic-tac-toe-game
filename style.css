@@ -1,0 +1,51 @@
+:root{
+    --main-backround-colour: #cfd2d4;
+    --header-backround-colour: #859696;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+
+body{
+    min-height: 100vh;
+    background-color: var(--main-backround-colour);
+    display: grid;
+    grid-template-rows: 2fr 19fr 1fr;
+}
+
+.header{
+    background-color: var(--header-backround-colour);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.GameBoard{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 500px;
+    height: 500px;
+    gap: 0.5vh;
+}
+
+.field{
+    background-color: aquamarine;
+}
+
+.footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
