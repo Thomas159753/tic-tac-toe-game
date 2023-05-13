@@ -94,6 +94,8 @@ body{
     height: 170px;
     width: 170px;
     font-family: Roboto ,sans-serif;
+    cursor: pointer;
+    color: var(--text-box-color);
 }
 
 .footer{
