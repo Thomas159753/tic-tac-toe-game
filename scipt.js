@@ -1,83 +1,129 @@
 "use strict";
 const player = (sign) => {
-    this.sign = sign
+    const playerSign = sign;
 
     const PlayerSign = () => {
-        return sign
-    }
+        return playerSign;
+    };
 
-    return {PlayerSign}
-}
+    return { PlayerSign };
+};
 
 const Gameboard = (() => {
     const Board = ["", "", "", "", "", "", "", "", ""];
 
-    const boadField = (index, Symbol) => {
-        if(index > Board.length) return;
-        Board[index] = Symbol
-    }
+    const boardField = (index, Symbol) => {
+        if (index > Board.length) return;
+        Board[index] = Symbol;
+        return Board;
+    };
 
     const GetBoardFields = (index) => {
-        if(index > Board.length)return
+        if (index > Board.length) return;
         return Board[index];
-    }
+    };
 
     const restart = () => {
-        for(let i = 0; i < Board.length; i++){
-            Board[i] = ""
+        for (let i = 0; i < Board.length; i++) {
+            Board[i] = "";
         }
-    }
+    };
 
     const GameField = document.querySelectorAll(".field");
     const restartButton = document.getElementById("restart");
 
     GameField.forEach((field) =>
-    field.addEventListener("click", (e) => {
-        if(e.target.textContent !== "")return
-        gamePlay.gameRound(parseInt(e.target.dataset.index))
-        updateGameboard();
-    }))
+        field.addEventListener("click", (e) => {
+            if (e.target.textContent !== "" || gamePlay.gameover()) return;
+            gamePlay.gameRound(parseInt(e.target.dataset.index));
+            updateGameboard();
+        })
+    );
 
     restartButton.addEventListener("click", (e) => {
-        restart()
+        restart();
         updateGameboard();
         displayText("restart");
         gamePlay.roundReset();
-      });
-    
+    });
 
     const updateGameboard = () => {
         for (let i = 0; i < GameField.length; i++) {
             GameField[i].textContent = GetBoardFields(i);
         }
-      };
+    };
 
-    return {boadField}
-})()
+    return { boardField, GetBoardFields };
+})();
 
 const gamePlay = (() => {
     const playeOne = player("X");
     const playeTwo = player("O");
-    let round = 0;
-    let Gameover = false
+    let round = 1;
+    let gamestate = false
 
-    const gameRound = (fieldIndex) =>{
-        Gameboard.boadField(fieldIndex, playerTurn())
+    const gameRound = (fieldIndex) => {
+        Gameboard.boardField(fieldIndex, playerTurn());
+        if (Winner.checkWinner()) {
+            displayText("winner");
+            gamestate = true
+            return
+        }
         round++
-        displayText();
-    }
+        displayText()
+    };
 
     const playerTurn = () => {
-       return round % 2 === 1 ? playeOne.PlayerSign() : playeTwo.PlayerSign();
-    }
+        return round % 2 === 1 ? playeOne.PlayerSign() : playeTwo.PlayerSign();
+    };
 
     const getRound = () => {
         return round;
+    };
+
+    const roundReset = () => {
+        round = 1;
+        gamestate = false;
+    };
+
+    const gameover = () => {
+        return gamestate
     }
 
-    const roundReset = () =>{
-        round = 0
-    }
+    return{gameRound, playerTurn, getRound, roundReset, gameover}
+})();
 
-    return{gameRound, playerTurn, getRound, roundReset}
+const Winner = (() => {
+    const checkWinner = () => {
+        const winConditions = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+
+        const currentPlayerSign = gamePlay.playerTurn();
+
+        // Check each winning combination
+        for (let i = 0; i < winConditions.length; i++) {
+            const [a, b, c] = winConditions[i];
+
+            // Check if the current player's sign occupies all three positions of a winning combination
+            if (
+                Gameboard.GetBoardFields(a) === currentPlayerSign &&
+                Gameboard.GetBoardFields(b) === currentPlayerSign &&
+                Gameboard.GetBoardFields(c) === currentPlayerSign
+            ) {
+                return true; // Current player is the winner
+            }
+        }
+
+        return false; // No winner found
+    };
+
+    return { checkWinner};
 })();
