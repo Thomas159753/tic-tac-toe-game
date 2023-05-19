@@ -1,4 +1,6 @@
 "use strict";
+
+// Player module
 const player = (sign) => {
     const playerSign = sign;
 
@@ -9,6 +11,7 @@ const player = (sign) => {
     return { PlayerSign };
 };
 
+// Gameboard module
 const Gameboard = (() => {
     const Board = ["", "", "", "", "", "", "", "", ""];
 
@@ -31,8 +34,11 @@ const Gameboard = (() => {
 
     const GameField = document.querySelectorAll(".field");
     const restartButton = document.getElementById("restart");
+    const AiButton = document.getElementById("Bot_Button")
 
     GameField.forEach((field) =>
+
+     // Add click event listeners to game fields
         field.addEventListener("click", (e) => {
             if (e.target.textContent !== "" || gamePlay.gameover()) return;
             gamePlay.gameRound(parseInt(e.target.dataset.index));
@@ -40,13 +46,23 @@ const Gameboard = (() => {
         })
     );
 
-    restartButton.addEventListener("click", (e) => {
+     // Add click event listener to restart button
+    restartButton.addEventListener("click", () => {
         restart();
         updateGameboard();
         displayText("restart");
         gamePlay.roundReset();
     });
 
+    // Add click event listener to Bott Button
+    AiButton.addEventListener("click", () => {
+        restart();
+        updateGameboard();
+        displayText("restart");
+        gamePlay.roundReset();
+    });
+
+    // Update the gameboard display
     const updateGameboard = () => {
         for (let i = 0; i < GameField.length; i++) {
             GameField[i].textContent = GetBoardFields(i);
@@ -56,14 +72,20 @@ const Gameboard = (() => {
     return { boardField, GetBoardFields };
 })();
 
+
+// Gameplay module
 const gamePlay = (() => {
+
     const playeOne = player("X");
     const playeTwo = player("O");
+
     let round = 1;
     let gamestate = false
 
     const gameRound = (fieldIndex) => {
         Gameboard.boardField(fieldIndex, playerTurn());
+
+        // Check if the current player is the winner
         if (Winner.checkWinner()) {
             displayText("winner");
             gamestate = true
@@ -93,6 +115,7 @@ const gamePlay = (() => {
     return{gameRound, playerTurn, getRound, roundReset, gameover}
 })();
 
+// Winner module
 const Winner = (() => {
     const checkWinner = () => {
         const winConditions = [

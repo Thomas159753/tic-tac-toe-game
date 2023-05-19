@@ -2,12 +2,14 @@
     --main-backround-colour: #b2b3b4;
     --headerFooter-backround-colour: #4c7d7e;
     --button-text-color: #ffffff ;
-    --buuton-background-color: #5f9ea0;
-    --buuton-active-background-color: #487577;
+    --buton-background-color: #5f9ea0;
+    --buton-active-background-color: #487577;
     --header-color: #ffffff;
     --text-box-color: #262626;
     --field-backround-colour: #e4e6e6;
     --footer-text-color: #ffffff;
+    --Bot_button-background-color: #658b8b;
+    --Bot_button-active-background-color: #547272;
 }
 
 @font-face {
@@ -116,7 +118,7 @@ button{
     padding: 1vh 2vh 1vh 2vh;
     border: none;
     cursor: pointer;
-    background-color: var(--buuton-background-color);
+    background-color: var(--buton-background-color);
     border-radius: 2vh;
     color: var(--button-text-color);
 }
@@ -134,7 +136,37 @@ button:active{
     padding: 1vh 2vh 1vh 2vh;
     border: none;
     cursor: pointer;
-    background-color: var(--buuton-active-background-color);
+    background-color: var(--buton-active-background-color);
+    border-radius: 2vh;
+    color: var(--button-text-color);
+}
+
+.Bot_button{
+    margin-top: 2vh;
+    font-size: 3vh;
+    font-family: Roboto ,sans-serif;
+    padding: 1vh 2vh 1vh 2vh;
+    border: none;
+    cursor: pointer;
+    background-color: var(--Bot_button-background-color);
+    border-radius: 2vh;
+    color: var(--button-text-color);
+}
+
+.Bot_button:hover{
+    border: 0.2vh solid white;
+    box-shadow: 10px 10px 13px 0px rgba(0,0,0,0.32);
+    -webkit-box-shadow: 10px 10px 13px 0px rgba(0,0,0,0.32);
+    -moz-box-shadow: 10px 10px 13px 0px rgba(0,0,0,0.32);
+    color: var(--button-text-color);
+}
+
+.Bot_button:active{
+    font-size: 3vh;
+    padding: 1vh 2vh 1vh 2vh;
+    border: none;
+    cursor: pointer;
+    background-color: var(--Bot_button-active-background-color);
     border-radius: 2vh;
     color: var(--button-text-color);
 }
