@@ -13,6 +13,7 @@ const player = (sign) => {
 
 // Gameboard module
 const Gameboard = (() => {
+    let botEnable = false;
     const Board = ["", "", "", "", "", "", "", "", ""];
 
     const boardField = (index, Symbol) => {
@@ -43,6 +44,10 @@ const Gameboard = (() => {
             if (e.target.textContent !== "" || gamePlay.gameover()) return;
             gamePlay.gameRound(parseInt(e.target.dataset.index));
             updateGameboard();
+            if (!gamePlay.gameover() && botEnable === true) {
+                AiTurn.makeAIMove();
+                updateGameboard();
+            }
         })
     );
 
@@ -52,6 +57,7 @@ const Gameboard = (() => {
         updateGameboard();
         displayText("restart");
         gamePlay.roundReset();
+        botEnable = false;
     });
 
     // Add click event listener to Bott Button
@@ -60,6 +66,7 @@ const Gameboard = (() => {
         updateGameboard();
         displayText("restart");
         gamePlay.roundReset();
+        botEnable = true
     });
 
     // Update the gameboard display
@@ -76,8 +83,8 @@ const Gameboard = (() => {
 // Gameplay module
 const gamePlay = (() => {
 
-    const playeOne = player("X");
-    const playeTwo = player("O");
+    const playerOne = player("X");
+    const playerTwo = player("O");
 
     let round = 1;
     let gamestate = false
@@ -92,11 +99,16 @@ const gamePlay = (() => {
             return
         }
         round++
+        if (round > 9){
+            displayText("draw")
+            gamestate = true
+            return
+        }
         displayText()
     };
 
     const playerTurn = () => {
-        return round % 2 === 1 ? playeOne.PlayerSign() : playeTwo.PlayerSign();
+        return round % 2 === 1 ? playerOne.PlayerSign() : playerTwo.PlayerSign();
     };
 
     const getRound = () => {
